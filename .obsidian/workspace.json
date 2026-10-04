@@ -1,0 +1,226 @@
+{
+  "main": {
+    "id": "03a1276a5258f4cd",
+    "type": "split",
+    "children": [
+      {
+        "id": "29f86a834a665478",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "894b35fc57e9f7a5",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "git-lecture/commands/Git Komutları.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Git Komutları"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "81404d7a646cf37a",
+    "type": "split",
+    "children": [
+      {
+        "id": "01cf4681c7905d9a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ee7379317125b86f",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "984a95ce5bc116c9",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "a319cdcf4352c1b0",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "ec2929297fc91c89",
+    "type": "split",
+    "children": [
+      {
+        "id": "2b10e8bc84f58168",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a7a4310fecb7ad03",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "cheat-sheet-bundle/command-line/CLI-cheatsheet-dark.pdf",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks"
+            }
+          },
+          {
+            "id": "f72891df9bbc4c12",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "cheat-sheet-bundle/command-line/CLI-cheatsheet-dark.pdf",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links"
+            }
+          },
+          {
+            "id": "e9eafde840d8441f",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "bc8a94f66ab4a347",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "8d8a20975815f796",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "cheat-sheet-bundle/command-line/CLI-cheatsheet-dark.pdf",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "ee7379317125b86f",
+  "lastOpenFiles": [
+    "slayt/Git.pptx",
+    "slayt/Kubernetes.pptx",
+    "slayt/Kubernetes Temelleri.pptx",
+    "slayt/Docker.pptx",
+    "slayt/Docker Temelleri.pptx",
+    "Docker Temelleri.pptx",
+    "docker-egitimi/ornekler/12-final-proje/cozum/app/tests/test_app.py",
+    "docker-egitimi/ornekler/12-final-proje/baslangic/app/tests/test_app.py",
+    "docker-egitimi/ornekler/12-final-proje/cozum/app/tests",
+    "docker-egitimi/ornekler/12-final-proje/cozum/app/requirements.txt",
+    "docker-egitimi/ornekler/12-final-proje/cozum/app/app.py",
+    "docker-egitimi/ornekler/12-final-proje/cozum/app/NOTLAR.md",
+    "docker-egitimi/ornekler/12-final-proje/baslangic/app/NOTLAR.md",
+    "docker-egitimi/ornekler/12-final-proje-cevap/baslangic/app/NOTLAR.md",
+    "docker-egitimi/ornekler/12-final-proje-cevap/baslangic/README.md",
+    "docker-egitimi/README.md",
+    "docker-egitimi/labs/cheatsheet.md",
+    "docker-egitimi/labs/12-final-projesi.md",
+    "docker-egitimi/labs/11-tagging-ve-registry.md",
+    "docker-egitimi/labs/10-docker-compose.md",
+    "docker-egitimi/labs/08-volume-ve-bind-mount.md",
+    "docker-egitimi/labs/09-environment-variables.md",
+    "docker-egitimi/labs/07-networking.md",
+    "docker-egitimi/labs/06-base-image-secimi.md",
+    "docker-egitimi/labs/05-multi-stage-build.md",
+    "docker-egitimi/labs/04-dockerignore.md",
+    "docker-egitimi/labs/03-dockerfile-direktifleri.md",
+    "docker-egitimi/labs/02-image-ve-layer-cache.md",
+    "docker-egitimi/labs/01-container-neden.md",
+    "docker-egitimi/labs/00-kurulum-ve-ortam.md",
+    "k8s-edu/Welcome.md",
+    "git-lecture/commands/Git Komutları.md"
+  ]
+}

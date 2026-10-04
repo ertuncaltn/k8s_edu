@@ -1,0 +1,3 @@
+FROM alpine:3.20
+# ENTRYPOINT = sabit çalıştırılabilir. docker run sonrasına yazılanlar ARGÜMAN olarak eklenir.
+ENTRYPOINT ["echo", "Merhaba"]

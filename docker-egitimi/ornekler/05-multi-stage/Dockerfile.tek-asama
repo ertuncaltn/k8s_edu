@@ -1,0 +1,7 @@
+# TEK AŞAMA: Derleyici, kaynak kod, cache... hepsi son image'da kalır.
+FROM golang:1.23
+WORKDIR /src
+COPY . .
+RUN go build -o /app/merhaba .
+EXPOSE 8080
+CMD ["/app/merhaba"]

@@ -1,0 +1,49 @@
+# syntax=docker/dockerfile:1
+# ======================================================================
+# Tüm temel direktifleri gösteren açıklamalı örnek Dockerfile
+# Build:  docker build -f Dockerfile.tam-ornek --build-arg UYGULAMA_SURUM=2.1.0 -t demo:tam .
+# Run:    docker run --rm -p 8080:8080 demo:tam
+# ======================================================================
+
+# ARG: SADECE build sırasında geçerli değişken. FROM'dan önce tanımlanırsa FROM'da kullanılabilir.
+ARG ALPINE_SURUM=3.20
+FROM alpine:${ALPINE_SURUM}
+
+# FROM'dan sonra tekrar tanımlanmalı ki bu aşamada kullanılabilsin
+ARG UYGULAMA_SURUM=1.0.0
+
+# LABEL: image'a metadata ekler (docker inspect ile görülür)
+LABEL org.opencontainers.image.title="direktif-demo" \
+      org.opencontainers.image.version="${UYGULAMA_SURUM}" \
+      org.opencontainers.image.authors="egitim@ornek.com"
+
+# ENV: image içinde ve çalışan container'da geçerli ortam değişkeni
+ENV UYGULAMA_SURUM=${UYGULAMA_SURUM} \
+    PORT=8080
+
+# RUN: build sırasında komut çalıştırır, sonucu yeni bir layer olur.
+# Komutları && ile birleştirmek layer sayısını ve boyutu azaltır.
+RUN apk add --no-cache busybox-extras curl \
+    && addgroup -S uygulama && adduser -S -G uygulama uygulama
+
+# WORKDIR: çalışma dizini (yoksa oluşturur). "cd" yerine bunu kullanın.
+WORKDIR /srv/www
+
+# COPY --chown: dosyaları kopyalarken sahipliği ayarlar
+COPY --chown=uygulama:uygulama ornek-klasor/ ./
+
+RUN echo "<h1>Direktif demo v${UYGULAMA_SURUM}</h1>" > index.html && chown uygulama:uygulama index.html
+
+# EXPOSE: SADECE dokümantasyon. Portu dışarı açmaz! (-p ile açılır)
+EXPOSE 8080
+
+# USER: bundan sonraki komutlar ve container bu kullanıcı ile çalışır (root değil!)
+USER uygulama
+
+# HEALTHCHECK: Docker'ın container sağlığını düzenli kontrol etmesi
+HEALTHCHECK --interval=10s --timeout=3s --retries=3 \
+  CMD curl -fs http://localhost:${PORT}/ || exit 1
+
+# ENTRYPOINT + CMD
+ENTRYPOINT ["busybox-extras", "httpd", "-f", "-v"]
+CMD ["-p", "8080", "-h", "/srv/www"]

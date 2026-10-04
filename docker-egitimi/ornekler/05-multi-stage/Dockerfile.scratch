@@ -1,0 +1,11 @@
+# syntax=docker/dockerfile:1
+# En uç nokta: "scratch" = BOŞ image. İçinde shell, libc, sertifika... hiçbir şey yok.
+FROM golang:1.23-alpine AS build
+WORKDIR /src
+COPY . .
+RUN CGO_ENABLED=0 go build -ldflags="-s -w" -o /out/merhaba .
+
+FROM scratch
+COPY --from=build /out/merhaba /merhaba
+EXPOSE 8080
+ENTRYPOINT ["/merhaba"]

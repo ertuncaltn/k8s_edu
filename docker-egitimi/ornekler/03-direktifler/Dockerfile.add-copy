@@ -1,0 +1,10 @@
+FROM alpine:3.20
+WORKDIR /demo
+
+# COPY: dosyayı olduğu gibi kopyalar (arşiv, arşiv olarak kalır)
+COPY arsiv.tar.gz /demo/copy/
+
+# ADD: yerel tar arşivini OTOMATİK AÇAR (ayrıca URL'den indirme yapabilir)
+ADD arsiv.tar.gz /demo/add/
+
+CMD ["sh", "-c", "echo '=== COPY ile ==='; ls -la /demo/copy; echo; echo '=== ADD ile ==='; ls -laR /demo/add"]

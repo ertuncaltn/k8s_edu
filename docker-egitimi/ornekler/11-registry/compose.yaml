@@ -1,0 +1,21 @@
+# ======================================================================
+# Yerel (private) Docker Registry
+#   Çalıştır :  docker compose up -d
+#   Katalog  :  http://localhost:5001/v2/_catalog
+#   Not      :  macOS'ta 5000 portu AirPlay tarafından kullanıldığı için 5001 seçildi.
+# ======================================================================
+name: registry
+
+services:
+  registry:
+    image: registry:2
+    ports:
+      - "5001:5000"
+    environment:
+      REGISTRY_STORAGE_DELETE_ENABLED: "true"   # image silmeye izin ver
+    volumes:
+      - registry-data:/var/lib/registry         # push edilen image'lar burada kalıcı
+    restart: unless-stopped
+
+volumes:
+  registry-data:

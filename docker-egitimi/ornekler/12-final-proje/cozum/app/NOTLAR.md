@@ -1,0 +1,1 @@
+Bu klasöre .dockerignore girmemeli

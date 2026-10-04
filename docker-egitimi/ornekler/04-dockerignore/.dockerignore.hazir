@@ -1,0 +1,42 @@
+# ============================================================
+# .dockerignore  —  build context'e GÖNDERİLMEYECEK dosyalar
+# Kullanmak için bu dosyanın adını ".dockerignore" yapın.
+# Söz dizimi .gitignore'a benzer (Go filepath.Match kuralları)
+# ============================================================
+
+# Versiyon kontrol
+.git
+.gitignore
+
+# Gizli bilgiler — image'a ASLA girmemeli
+.env
+.env.*
+*.pem
+*.key
+
+# Büyük / gereksiz dosyalar
+*.bin
+logs/
+*.log
+
+# Python artıkları
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+
+# Editör / işletim sistemi dosyaları
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Docker dosyalarının kendisi (image'a gerek yok)
+Dockerfile*
+.dockerignore*
+compose*.yaml
+docker-compose*.yml
+
+# İstisna: "!" ile hariç tutulan bir dosyayı geri alabilirsiniz
+# !logs/.gitkeep

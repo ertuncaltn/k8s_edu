@@ -1,0 +1,4 @@
+FROM alpine:3.20
+# En yaygın desen: ENTRYPOINT = program, CMD = varsayılan argüman
+ENTRYPOINT ["ping", "-c", "3"]
+CMD ["localhost"]

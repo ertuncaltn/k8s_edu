@@ -1,0 +1,76 @@
+# =============================================================================
+# BONUS — compose.yaml'ın gelişmiş hali
+#   1) DB şifresi Compose secret ile (POSTGRES_PASSWORD_FILE)
+#   2) backend network'ü internal: true
+#   3) adminer servisi
+#
+# Kullanım (ana stack kapalıyken):
+#   mkdir -p secrets && printf '%s' "GucluBirSifre2026" > secrets/db_sifre.txt
+#   docker compose -f compose.bonus.yaml up -d --build
+#
+# Not: api'nin DATABASE_URL'i hâlâ .env'deki POSTGRES_PASSWORD'u kullanır;
+# secret dosyasındaki şifreyle AYNI olmalıdır.
+# =============================================================================
+
+services:
+
+  api:
+    build:
+      context: ./app
+    image: localhost:5001/${GRUP_ADI:?GRUP_ADI tanımlı olmalı}/ziyaretci-defteri:${APP_SURUM:-1.0.0}
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      APP_ADI: ${APP_ADI:-Ziyaretçi Defteri}
+    ports:
+      - "8000:5000"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks: [frontend, backend]
+    restart: unless-stopped
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
+      # Şifre artık ortam değişkeninde değil; dosyadan okunuyor
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_sifre
+    secrets:
+      - db_sifre
+    volumes:
+      - db-verisi:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+    networks: [backend]
+    restart: unless-stopped
+
+  adminer:
+    image: adminer:latest
+    environment:
+      ADMINER_DEFAULT_SERVER: db
+    ports:
+      - "8081:8080"
+    # backend: db'ye ulaşmak için
+    # frontend: internal ağdaki bir servisin portu host'a YAYINLANAMAZ;
+    #           host'tan 8081 ile erişebilmek için internal olmayan bir ağ da gerekir
+    networks: [frontend, backend]
+    depends_on:
+      db:
+        condition: service_healthy
+
+networks:
+  frontend:
+  backend:
+    internal: true   # dış dünyaya (internet) çıkış yok, host'tan port erişimi yok
+
+volumes:
+  db-verisi:
+
+secrets:
+  db_sifre:
+    file: ./secrets/db_sifre.txt

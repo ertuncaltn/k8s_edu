@@ -1,0 +1,60 @@
+# ======================================================================
+# AŞAMA 1: web (Flask) + redis
+#   Çalıştır :  docker compose up -d --build
+#   Test     :  http://localhost:8000
+#   Kapat    :  docker compose down        (volume korunur)
+#               docker compose down -v     (volume da silinir!)
+# ======================================================================
+name: sayac
+
+services:
+  web:
+    build:
+      context: ./web            # Dockerfile'ın bulunduğu klasör
+      dockerfile: Dockerfile
+    image: sayac-web:1.0.0      # build edilen image'a verilecek isim:tag
+    ports:
+      - "${WEB_PORT:-8000}:5000"  # host:container  (.env yoksa 8000)
+    environment:
+      APP_BASLIK: ${APP_BASLIK:-Ziyaret Sayacı}
+      REDIS_HOST: redis         # servis adı = DNS adı
+      REDIS_PORT: "6379"
+    depends_on:
+      redis:
+        condition: service_healthy   # redis "healthy" olmadan web başlamaz
+    networks:
+      - frontend
+      - backend
+    restart: unless-stopped
+    # Bonus: "docker compose watch" ile canlı geliştirme
+    develop:
+      watch:
+        - action: sync           # .py değişince dosyayı container'a kopyala
+          path: ./web
+          target: /app
+          ignore:
+            - __pycache__/
+        - action: rebuild        # bağımlılık değişince image'ı yeniden build et
+          path: ./web/requirements.txt
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]  # veriyi diske yaz
+    volumes:
+      - redis-data:/data        # named volume -> kalıcı veri
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+    networks:
+      - backend                 # redis dışarıya (host'a) HİÇ açılmıyor
+    restart: unless-stopped
+
+networks:
+  frontend:
+  backend:
+
+volumes:
+  redis-data:

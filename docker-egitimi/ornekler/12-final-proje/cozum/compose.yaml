@@ -1,0 +1,48 @@
+# ===================== ÇÖZÜM =====================
+#   docker compose up -d --build
+#   docker compose ps
+#   curl http://localhost:8000/health
+name: defter
+
+services:
+  api:
+    build:
+      context: ./app
+    image: ${REGISTRY:-localhost:5001}/ziyaretci-defteri:${APP_SURUM:-1.0.0}
+    ports:
+      - "8000:5000"
+    environment:
+      APP_ADI: ${APP_ADI}
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - frontend
+      - backend
+    restart: unless-stopped
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    networks:
+      - backend
+    restart: unless-stopped
+
+networks:
+  frontend:
+  backend:
+    internal: true     # backend ağından internete çıkış yok
+
+volumes:
+  db-data:

@@ -1,0 +1,31 @@
+# .dockerignore — build context ./app olduğu için BU KLASÖRDE olmalı
+# (üst klasöre koyulursa hiçbir etkisi olmaz!)
+
+# Testler ve dokümantasyon image'a girmez
+tests/
+*.md
+
+# Python artıkları
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+.venv/
+venv/
+
+# Gizli bilgiler — ASLA image'a girmemeli
+.env
+.env.*
+
+# Docker dosyaları (image içinde işe yaramaz)
+Dockerfile*
+.dockerignore
+compose*.yaml
+compose*.yml
+docker-compose*.yml
+
+# Sürüm kontrol / editör
+.git/
+.gitignore
+.vscode/
+.idea/

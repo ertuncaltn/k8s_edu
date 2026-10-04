@@ -1,0 +1,65 @@
+# ======================================================================
+# AŞAMA 2: nginx (reverse proxy) + web (ölçeklenebilir) + redis
+#   Çalıştır :  docker compose -f compose.proxy.yaml up -d --build
+#   Ölçekle  :  docker compose -f compose.proxy.yaml up -d --scale web=3
+#               docker compose -f compose.proxy.yaml restart proxy
+#   Test     :  http://localhost:8080  (yenileyin, container adı değişir)
+#   Kapat    :  docker compose -f compose.proxy.yaml down
+# ======================================================================
+name: sayac
+
+services:
+  proxy:
+    image: nginx:1.27-alpine
+    ports:
+      - "8080:80"               # dışarıya açılan TEK servis
+    volumes:
+      - ./proxy/nginx.conf:/etc/nginx/conf.d/default.conf:ro   # bind mount (salt okunur)
+    depends_on:
+      web:
+        condition: service_healthy
+    networks:
+      - frontend
+    restart: unless-stopped
+
+  web:
+    build: ./web
+    image: sayac-web:1.0.0
+    # ports YOK! Scale edilebilmesi için host portu verilmez (çakışır).
+    environment:
+      APP_BASLIK: ${APP_BASLIK:-Ziyaret Sayacı}
+      REDIS_HOST: redis
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5000/health')"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - frontend
+      - backend
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - backend
+    restart: unless-stopped
+
+networks:
+  frontend:
+  backend:
+
+volumes:
+  redis-data:

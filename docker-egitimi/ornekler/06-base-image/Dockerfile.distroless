@@ -1,0 +1,17 @@
+# syntax=docker/dockerfile:1
+# Python + distroless: bağımlılıkları slim'de kur, sadece çalıştırma ortamını taşı
+# DİKKAT: distroless/python3-debian12 içindeki Python 3.11'dir.
+# Build aşamasında AYNI sürümü kullanın, yoksa derlenmiş paketler uyumsuz olur.
+FROM python:3.11-slim AS build
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir --target=/app/deps -r requirements.txt
+COPY app.py .
+
+# distroless/python3: shell yok, paket yöneticisi yok, sadece Python runtime
+FROM gcr.io/distroless/python3-debian12:nonroot
+WORKDIR /app
+COPY --from=build /app /app
+ENV PYTHONPATH=/app/deps
+EXPOSE 5000
+CMD ["app.py"]
